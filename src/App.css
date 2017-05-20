@@ -1,7 +1,7 @@
 .board{
   display: flex;
-  width: 600px;
-  height: 600px;
+  width: 300px;
+  height: 300px;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -9,8 +9,8 @@
 }
 
 .square{
-  height: 200px;
-  width: 200px;
+  height: 100px;
+  width: 100px;
   box-sizing: border-box;
   border: 5px solid black;
   font-size: 5em;
@@ -33,4 +33,3 @@
   padding: 4px;
   background-color: green;
 }
-

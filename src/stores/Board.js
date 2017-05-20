@@ -1,15 +1,21 @@
-class Board {
+import EventEmitter from 'events';
+import Dispatcher from '../dispatchers/Dispatcher';
+import {ckedAction} from '../actions/BoardActions';
+
+
+class Board extends EventEmitter{
   constructor(){
+    super()
     this.winner = false
     this.squares = ["","","","","","","","",""]
     this.winningCombos = [
-      [0, 1, 2], 
-      [3, 4, 5], 
-      [6, 7, 8], 
-      [0, 3, 6], 
-      [1, 4, 7], 
-      [2, 5, 8], 
-      [0, 4, 8], 
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
       [2, 4, 6]
     ]
   }
@@ -27,12 +33,14 @@ class Board {
       this.squares[index] = player
     }
 
-    this.winner = this.gameIsWon()
+    this.winner = this.gameIsWon();
+    this.emit('changed')
   }
 
   resetBoard(){
     this.squares = ["","","","","","","","",""]
     this.winner = false
+    this.emit('changed')
   }
 
   gameIsWon(){
@@ -45,7 +53,21 @@ class Board {
 
     return winner
   }
+
+  handleAction(action){
+    switch(action.type){
+      case('SQUARE_SET'):{
+        this.setSquare(action.index, action.player)
+        break;
+      }
+      default: {}
+    }
+    console.log('board action!!!', action);
+}
 }
 
 let board = new Board()
+Dispatcher.register(board.handleAction.bind(board));
+// window.board = board
+window.dispatcher = Dispatcher;
 export default board
